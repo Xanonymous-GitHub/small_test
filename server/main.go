@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -80,7 +81,11 @@ func handleRootOk(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.WriteHeader(http.StatusOK)
+	_, err := w.Write([]byte(fmt.Sprintf("The server is running. Send a GET request to %v to get the image.", imgServerPath)))
+	if err != nil {
+		panic(err)
+	}
+
 	return
 }
 
