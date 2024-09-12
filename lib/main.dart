@@ -96,7 +96,7 @@ final class _DownloadResultListViewState extends State<DownloadResultListView> {
     final isError = downloadResult.time == double.maxFinite;
 
     return Card(
-      surfaceTintColor: isError ? Theme.of(context).colorScheme.error: Theme.of(context).colorScheme.primaryContainer,
+      surfaceTintColor: isError ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.primaryContainer,
       child: ListTile(
         title: Text(downloadResult.url, textAlign: TextAlign.center),
         subtitle: Text(
@@ -130,28 +130,52 @@ final class _DownloadResultListViewState extends State<DownloadResultListView> {
       mainAxisSize: MainAxisSize.max,
       children: [
         Expanded(
-          child: ListView.builder(
-            padding: const EdgeInsets.all(8),
-            itemBuilder: _buildDownloadResultItem,
-            itemCount: _downloadResults.length,
-          ),
+          child: _downloadResults.isNotEmpty
+              ? ListView.builder(
+                  padding: const EdgeInsets.all(8),
+                  itemBuilder: _buildDownloadResultItem,
+                  itemCount: _downloadResults.length,
+                )
+              : const Center(
+                  child: Icon(
+                  Icons.add_chart_sharp,
+                  size: 200,
+                  color: Colors.grey,
+                )),
         ),
-        ElevatedButton.icon(
-          style: ElevatedButton.styleFrom(
-            backgroundColor: secondaryColor,
-            foregroundColor: onSecondaryColor,
-            textStyle: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          onPressed: _onDownloadButtonClicked,
-          label: _tasks.isEmpty ? const Text('Download') : Text('Downloading...[${_tasks.length}]'),
-          icon: _tasks.isEmpty
-              ? const Icon(Icons.download)
-              : SizedBox.square(
-                  dimension: 20,
-                  child: CircularProgressIndicator(
-                    color: onSecondaryColor,
-                  ),
-                ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: secondaryColor,
+                foregroundColor: onSecondaryColor,
+                textStyle: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              onPressed: _onDownloadButtonClicked,
+              label: _tasks.isEmpty ? const Text('Download') : Text('Downloading...[${_tasks.length}]'),
+              icon: _tasks.isEmpty
+                  ? const Icon(Icons.download)
+                  : SizedBox.square(
+                      dimension: 20,
+                      child: CircularProgressIndicator(
+                        color: onSecondaryColor,
+                      ),
+                    ),
+            ),
+            const SizedBox(width: 8),
+            ElevatedButton.icon(
+              style: ElevatedButton.styleFrom(
+                backgroundColor: secondaryColor,
+                foregroundColor: onSecondaryColor,
+                textStyle: const TextStyle(fontWeight: FontWeight.bold),
+              ),
+              onPressed: _downloadResults.isNotEmpty ? () => setState(() => _downloadResults.clear()) : null,
+              label: const Text('Clear'),
+              icon: const Icon(Icons.clear),
+            ),
+          ],
         ),
       ],
     );
