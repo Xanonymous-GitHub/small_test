@@ -27,6 +27,7 @@ final class DownloadResultListView extends StatefulWidget {
 final class _DownloadResultListViewState extends State<DownloadResultListView> {
   final List<DownloadResult> _downloadResults = [];
   final Queue<Future<List<DownloadResult>>> _tasks = Queue();
+  final Map<int, String> _timeStamps = {};
 
   void _onDownloadButtonClicked() {
     setState(() {
@@ -38,6 +39,10 @@ final class _DownloadResultListViewState extends State<DownloadResultListView> {
     if (_tasks.isNotEmpty) {
       _tasks.first.then((result) {
         setState(() {
+          for (final downloadResult in result) {
+            _timeStamps[downloadResult.hashCode] = DateTime.now().toIso8601String();
+          }
+
           _downloadResults.insertAll(0, result);
           _tasks.removeFirst();
         });
@@ -54,7 +59,7 @@ final class _DownloadResultListViewState extends State<DownloadResultListView> {
       child: ListTile(
         title: Text(downloadResult.url, textAlign: TextAlign.center),
         subtitle: Text(
-          "${DateTime.now().toIso8601String()}, "
+          "${_timeStamps[downloadResult.hashCode]}, "
           "${isError ? 'ERROR' : '${downloadResult.time} ms'}",
           textAlign: TextAlign.right,
         ),
