@@ -1,0 +1,75 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+
+jobs:
+
+  build-ios:
+
+    name: Build iOS
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ macos-latest ]
+
+    steps:
+
+      # Set up Flutter.
+      - name: Clone Flutter repository with stable channel
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.x
+
+      # checkout codebase.
+      - name: Checkout codebase
+        uses: actions/checkout@v4
+
+      # Get packages.
+      - name: Get dependencies
+        run: flutter pub get
+
+      # Build ios app
+      - name: Build app
+        run: flutter build ios --no-codesign
+
+  build-aos:
+
+    name: Build AOS
+    runs-on: ${{ matrix.os }}
+
+    strategy:
+      matrix:
+        os: [ ubuntu-latest ]
+
+    steps:
+
+      # Set up Java.
+      - name: Setup JDK 21
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '21'
+
+      # Set up Flutter.
+      - name: Clone Flutter repository with stable channel
+        uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          flutter-version: 3.x
+
+      # checkout codebase.
+      - name: Checkout codebase
+        uses: actions/checkout@v4
+
+      # Get packages.
+      - name: Get dependencies
+        run: flutter pub get
+
+      # Build aos app
+      - name: Build appbundle
+        run: flutter build appbundle
