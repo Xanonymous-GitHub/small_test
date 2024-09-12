@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
@@ -70,22 +71,33 @@ final class DownloadResultListView extends StatefulWidget {
 
 final class _DownloadResultListViewState extends State<DownloadResultListView> {
   final List<DownloadResult> _downloadResults = [];
+  final Queue<Future<List<DownloadResult>>> _tasks = Queue();
 
   void _onDownloadButtonClicked() {
-    _submitDownloadTask().then((downloadResults) {
-      setState(() {
-        _downloadResults.insertAll(0, downloadResults);
-      });
+    setState(() {
+      _tasks.add(_submitDownloadTask());
     });
   }
 
-  Widget buildDownloadResultItem(BuildContext context, int index) {
+  void _consumeDownloadTask() {
+    if (_tasks.isNotEmpty) {
+      _tasks.first.then((result) {
+        setState(() {
+          _downloadResults.insertAll(0, result);
+          _tasks.removeFirst();
+        });
+      });
+    }
+  }
+
+  Widget _buildDownloadResultItem(BuildContext context, int index) {
     final downloadResult = _downloadResults[index];
     return Card(
       child: ListTile(
         title: Text(downloadResult.url, textAlign: TextAlign.center),
         subtitle: Text(
-          downloadResult.time == double.maxFinite ? 'ERROR' : '${downloadResult.time} ms',
+          "${DateTime.now().toIso8601String()}, "
+          "${downloadResult.time == double.maxFinite ? 'ERROR' : '${downloadResult.time} ms'}",
           textAlign: TextAlign.right,
         ),
       ),
@@ -93,22 +105,51 @@ final class _DownloadResultListViewState extends State<DownloadResultListView> {
   }
 
   @override
-  Widget build(BuildContext context) => Column(
-        mainAxisAlignment: MainAxisAlignment.end,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisSize: MainAxisSize.max,
-        children: [
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.all(8),
-              itemBuilder: buildDownloadResultItem,
-              itemCount: _downloadResults.length,
-            ),
+  void deactivate() {
+    for (final task in _tasks) {
+      task.ignore();
+    }
+    _tasks.clear();
+    super.deactivate();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    _consumeDownloadTask();
+
+    final secondaryColor = Theme.of(context).colorScheme.secondary;
+    final onSecondaryColor = Theme.of(context).colorScheme.onSecondary;
+
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.end,
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisSize: MainAxisSize.max,
+      children: [
+        Expanded(
+          child: ListView.builder(
+            padding: const EdgeInsets.all(8),
+            itemBuilder: _buildDownloadResultItem,
+            itemCount: _downloadResults.length,
           ),
-          ElevatedButton(
-            onPressed: _onDownloadButtonClicked,
-            child: const Text('Download'),
+        ),
+        ElevatedButton.icon(
+          style: ElevatedButton.styleFrom(
+            backgroundColor: secondaryColor,
+            foregroundColor: onSecondaryColor,
+            textStyle: const TextStyle(fontWeight: FontWeight.bold),
           ),
-        ],
-      );
+          onPressed: _onDownloadButtonClicked,
+          label: _tasks.isEmpty ? const Text('Download') : Text('Downloading...[${_tasks.length}]'),
+          icon: _tasks.isEmpty
+              ? const Icon(Icons.download)
+              : SizedBox.square(
+                  dimension: 20,
+                  child: CircularProgressIndicator(
+                    color: onSecondaryColor,
+                  ),
+                ),
+        ),
+      ],
+    );
+  }
 }
