@@ -7,12 +7,13 @@ part 'download_result.g.dart';
 sealed class DownloadResult with _$DownloadResult {
   const factory DownloadResult({
     @JsonKey(name: 'domain') required String url,
-    required String time,
+    required num time,
   }) = _DownloadResult;
 
   const factory DownloadResult.error({
     @JsonKey(name: 'domain') required String url,
     @JsonKey(name: 'error_msg') required String errorMsg,
+    @Default(double.maxFinite) num time,
   }) = _DownloadResultError;
 
   @override

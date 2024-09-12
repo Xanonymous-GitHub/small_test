@@ -15,5 +15,6 @@ Map<String, dynamic> _$$DownloadResultImplToJson(_$DownloadResultImpl instance) 
 Map<String, dynamic> _$$DownloadResultErrorImplToJson(_$DownloadResultErrorImpl instance) => <String, dynamic>{
       'domain': instance.url,
       'error_msg': instance.errorMsg,
+      'time': instance.time,
       'runtimeType': instance.$type,
     };
