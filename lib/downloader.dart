@@ -14,8 +14,7 @@ final class Downloader {
   })  : _sourcePaths = sourcePaths,
         _client = client;
 
-  Future<void> _fetchTargetFrom({required Uri sourcePath}) =>
-      _client.get(sourcePath);
+  Future<void> _fetchTargetFrom({required Uri sourcePath}) => _client.get(sourcePath);
 
   Future<List<DownloadResult>> fetchAll() => Future.wait(
         _sourcePaths.map(

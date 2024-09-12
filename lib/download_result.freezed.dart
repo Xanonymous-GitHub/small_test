@@ -14,48 +14,26 @@ T _$identity<T>(T value) => value;
 final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
-DownloadResult _$DownloadResultFromJson(Map<String, dynamic> json) {
-  switch (json['runtimeType']) {
-    case 'default':
-      return _DownloadResult.fromJson(json);
-    case 'error':
-      return _DownloadResultError.fromJson(json);
-
-    default:
-      throw CheckedFromJsonException(json, 'runtimeType', 'DownloadResult',
-          'Invalid union type "${json['runtimeType']}"!');
-  }
-}
-
 /// @nodoc
 mixin _$DownloadResult {
   @JsonKey(name: 'domain')
   String get url => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(@JsonKey(name: 'domain') String url, String time)
-        $default, {
-    required TResult Function(@JsonKey(name: 'domain') String url,
-            @JsonKey(name: 'error_msg') String errorMsg)
-        error,
+    TResult Function(@JsonKey(name: 'domain') String url, String time) $default, {
+    required TResult Function(@JsonKey(name: 'domain') String url, @JsonKey(name: 'error_msg') String errorMsg) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(@JsonKey(name: 'domain') String url, String time)?
-        $default, {
-    TResult? Function(@JsonKey(name: 'domain') String url,
-            @JsonKey(name: 'error_msg') String errorMsg)?
-        error,
+    TResult? Function(@JsonKey(name: 'domain') String url, String time)? $default, {
+    TResult? Function(@JsonKey(name: 'domain') String url, @JsonKey(name: 'error_msg') String errorMsg)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(@JsonKey(name: 'domain') String url, String time)?
-        $default, {
-    TResult Function(@JsonKey(name: 'domain') String url,
-            @JsonKey(name: 'error_msg') String errorMsg)?
-        error,
+    TResult Function(@JsonKey(name: 'domain') String url, String time)? $default, {
+    TResult Function(@JsonKey(name: 'domain') String url, @JsonKey(name: 'error_msg') String errorMsg)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -85,22 +63,19 @@ mixin _$DownloadResult {
   /// Create a copy of DownloadResult
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  $DownloadResultCopyWith<DownloadResult> get copyWith =>
-      throw _privateConstructorUsedError;
+  $DownloadResultCopyWith<DownloadResult> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $DownloadResultCopyWith<$Res> {
-  factory $DownloadResultCopyWith(
-          DownloadResult value, $Res Function(DownloadResult) then) =
+  factory $DownloadResultCopyWith(DownloadResult value, $Res Function(DownloadResult) then) =
       _$DownloadResultCopyWithImpl<$Res, DownloadResult>;
   @useResult
   $Res call({@JsonKey(name: 'domain') String url});
 }
 
 /// @nodoc
-class _$DownloadResultCopyWithImpl<$Res, $Val extends DownloadResult>
-    implements $DownloadResultCopyWith<$Res> {
+class _$DownloadResultCopyWithImpl<$Res, $Val extends DownloadResult> implements $DownloadResultCopyWith<$Res> {
   _$DownloadResultCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
@@ -125,10 +100,8 @@ class _$DownloadResultCopyWithImpl<$Res, $Val extends DownloadResult>
 }
 
 /// @nodoc
-abstract class _$$DownloadResultImplCopyWith<$Res>
-    implements $DownloadResultCopyWith<$Res> {
-  factory _$$DownloadResultImplCopyWith(_$DownloadResultImpl value,
-          $Res Function(_$DownloadResultImpl) then) =
+abstract class _$$DownloadResultImplCopyWith<$Res> implements $DownloadResultCopyWith<$Res> {
+  factory _$$DownloadResultImplCopyWith(_$DownloadResultImpl value, $Res Function(_$DownloadResultImpl) then) =
       __$$DownloadResultImplCopyWithImpl<$Res>;
   @override
   @useResult
@@ -136,11 +109,9 @@ abstract class _$$DownloadResultImplCopyWith<$Res>
 }
 
 /// @nodoc
-class __$$DownloadResultImplCopyWithImpl<$Res>
-    extends _$DownloadResultCopyWithImpl<$Res, _$DownloadResultImpl>
+class __$$DownloadResultImplCopyWithImpl<$Res> extends _$DownloadResultCopyWithImpl<$Res, _$DownloadResultImpl>
     implements _$$DownloadResultImplCopyWith<$Res> {
-  __$$DownloadResultImplCopyWithImpl(
-      _$DownloadResultImpl _value, $Res Function(_$DownloadResultImpl) _then)
+  __$$DownloadResultImplCopyWithImpl(_$DownloadResultImpl _value, $Res Function(_$DownloadResultImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of DownloadResult
@@ -165,16 +136,10 @@ class __$$DownloadResultImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createFactory: false)
 class _$DownloadResultImpl implements _DownloadResult {
-  const _$DownloadResultImpl(
-      {@JsonKey(name: 'domain') required this.url,
-      required this.time,
-      final String? $type})
+  const _$DownloadResultImpl({@JsonKey(name: 'domain') required this.url, required this.time, final String? $type})
       : $type = $type ?? 'default';
-
-  factory _$DownloadResultImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DownloadResultImplFromJson(json);
 
   @override
   @JsonKey(name: 'domain')
@@ -209,17 +174,13 @@ class _$DownloadResultImpl implements _DownloadResult {
   @override
   @pragma('vm:prefer-inline')
   _$$DownloadResultImplCopyWith<_$DownloadResultImpl> get copyWith =>
-      __$$DownloadResultImplCopyWithImpl<_$DownloadResultImpl>(
-          this, _$identity);
+      __$$DownloadResultImplCopyWithImpl<_$DownloadResultImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(@JsonKey(name: 'domain') String url, String time)
-        $default, {
-    required TResult Function(@JsonKey(name: 'domain') String url,
-            @JsonKey(name: 'error_msg') String errorMsg)
-        error,
+    TResult Function(@JsonKey(name: 'domain') String url, String time) $default, {
+    required TResult Function(@JsonKey(name: 'domain') String url, @JsonKey(name: 'error_msg') String errorMsg) error,
   }) {
     return $default(url, time);
   }
@@ -227,11 +188,8 @@ class _$DownloadResultImpl implements _DownloadResult {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(@JsonKey(name: 'domain') String url, String time)?
-        $default, {
-    TResult? Function(@JsonKey(name: 'domain') String url,
-            @JsonKey(name: 'error_msg') String errorMsg)?
-        error,
+    TResult? Function(@JsonKey(name: 'domain') String url, String time)? $default, {
+    TResult? Function(@JsonKey(name: 'domain') String url, @JsonKey(name: 'error_msg') String errorMsg)? error,
   }) {
     return $default?.call(url, time);
   }
@@ -239,11 +197,8 @@ class _$DownloadResultImpl implements _DownloadResult {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(@JsonKey(name: 'domain') String url, String time)?
-        $default, {
-    TResult Function(@JsonKey(name: 'domain') String url,
-            @JsonKey(name: 'error_msg') String errorMsg)?
-        error,
+    TResult Function(@JsonKey(name: 'domain') String url, String time)? $default, {
+    TResult Function(@JsonKey(name: 'domain') String url, @JsonKey(name: 'error_msg') String errorMsg)? error,
     required TResult orElse(),
   }) {
     if ($default != null) {
@@ -292,12 +247,8 @@ class _$DownloadResultImpl implements _DownloadResult {
 }
 
 abstract class _DownloadResult implements DownloadResult {
-  const factory _DownloadResult(
-      {@JsonKey(name: 'domain') required final String url,
-      required final String time}) = _$DownloadResultImpl;
-
-  factory _DownloadResult.fromJson(Map<String, dynamic> json) =
-      _$DownloadResultImpl.fromJson;
+  const factory _DownloadResult({@JsonKey(name: 'domain') required final String url, required final String time}) =
+      _$DownloadResultImpl;
 
   @override
   @JsonKey(name: 'domain')
@@ -308,29 +259,25 @@ abstract class _DownloadResult implements DownloadResult {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DownloadResultImplCopyWith<_$DownloadResultImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$DownloadResultImplCopyWith<_$DownloadResultImpl> get copyWith => throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class _$$DownloadResultErrorImplCopyWith<$Res>
-    implements $DownloadResultCopyWith<$Res> {
-  factory _$$DownloadResultErrorImplCopyWith(_$DownloadResultErrorImpl value,
-          $Res Function(_$DownloadResultErrorImpl) then) =
+abstract class _$$DownloadResultErrorImplCopyWith<$Res> implements $DownloadResultCopyWith<$Res> {
+  factory _$$DownloadResultErrorImplCopyWith(
+          _$DownloadResultErrorImpl value, $Res Function(_$DownloadResultErrorImpl) then) =
       __$$DownloadResultErrorImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call(
-      {@JsonKey(name: 'domain') String url,
-      @JsonKey(name: 'error_msg') String errorMsg});
+  $Res call({@JsonKey(name: 'domain') String url, @JsonKey(name: 'error_msg') String errorMsg});
 }
 
 /// @nodoc
 class __$$DownloadResultErrorImplCopyWithImpl<$Res>
     extends _$DownloadResultCopyWithImpl<$Res, _$DownloadResultErrorImpl>
     implements _$$DownloadResultErrorImplCopyWith<$Res> {
-  __$$DownloadResultErrorImplCopyWithImpl(_$DownloadResultErrorImpl _value,
-      $Res Function(_$DownloadResultErrorImpl) _then)
+  __$$DownloadResultErrorImplCopyWithImpl(
+      _$DownloadResultErrorImpl _value, $Res Function(_$DownloadResultErrorImpl) _then)
       : super(_value, _then);
 
   /// Create a copy of DownloadResult
@@ -355,16 +302,13 @@ class __$$DownloadResultErrorImplCopyWithImpl<$Res>
 }
 
 /// @nodoc
-@JsonSerializable()
+@JsonSerializable(createFactory: false)
 class _$DownloadResultErrorImpl implements _DownloadResultError {
   const _$DownloadResultErrorImpl(
       {@JsonKey(name: 'domain') required this.url,
       @JsonKey(name: 'error_msg') required this.errorMsg,
       final String? $type})
       : $type = $type ?? 'error';
-
-  factory _$DownloadResultErrorImpl.fromJson(Map<String, dynamic> json) =>
-      _$$DownloadResultErrorImplFromJson(json);
 
   @override
   @JsonKey(name: 'domain')
@@ -387,8 +331,7 @@ class _$DownloadResultErrorImpl implements _DownloadResultError {
         (other.runtimeType == runtimeType &&
             other is _$DownloadResultErrorImpl &&
             (identical(other.url, url) || other.url == url) &&
-            (identical(other.errorMsg, errorMsg) ||
-                other.errorMsg == errorMsg));
+            (identical(other.errorMsg, errorMsg) || other.errorMsg == errorMsg));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
@@ -401,17 +344,13 @@ class _$DownloadResultErrorImpl implements _DownloadResultError {
   @override
   @pragma('vm:prefer-inline')
   _$$DownloadResultErrorImplCopyWith<_$DownloadResultErrorImpl> get copyWith =>
-      __$$DownloadResultErrorImplCopyWithImpl<_$DownloadResultErrorImpl>(
-          this, _$identity);
+      __$$DownloadResultErrorImplCopyWithImpl<_$DownloadResultErrorImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>(
-    TResult Function(@JsonKey(name: 'domain') String url, String time)
-        $default, {
-    required TResult Function(@JsonKey(name: 'domain') String url,
-            @JsonKey(name: 'error_msg') String errorMsg)
-        error,
+    TResult Function(@JsonKey(name: 'domain') String url, String time) $default, {
+    required TResult Function(@JsonKey(name: 'domain') String url, @JsonKey(name: 'error_msg') String errorMsg) error,
   }) {
     return error(url, errorMsg);
   }
@@ -419,11 +358,8 @@ class _$DownloadResultErrorImpl implements _DownloadResultError {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>(
-    TResult? Function(@JsonKey(name: 'domain') String url, String time)?
-        $default, {
-    TResult? Function(@JsonKey(name: 'domain') String url,
-            @JsonKey(name: 'error_msg') String errorMsg)?
-        error,
+    TResult? Function(@JsonKey(name: 'domain') String url, String time)? $default, {
+    TResult? Function(@JsonKey(name: 'domain') String url, @JsonKey(name: 'error_msg') String errorMsg)? error,
   }) {
     return error?.call(url, errorMsg);
   }
@@ -431,11 +367,8 @@ class _$DownloadResultErrorImpl implements _DownloadResultError {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>(
-    TResult Function(@JsonKey(name: 'domain') String url, String time)?
-        $default, {
-    TResult Function(@JsonKey(name: 'domain') String url,
-            @JsonKey(name: 'error_msg') String errorMsg)?
-        error,
+    TResult Function(@JsonKey(name: 'domain') String url, String time)? $default, {
+    TResult Function(@JsonKey(name: 'domain') String url, @JsonKey(name: 'error_msg') String errorMsg)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -485,12 +418,8 @@ class _$DownloadResultErrorImpl implements _DownloadResultError {
 
 abstract class _DownloadResultError implements DownloadResult {
   const factory _DownloadResultError(
-          {@JsonKey(name: 'domain') required final String url,
-          @JsonKey(name: 'error_msg') required final String errorMsg}) =
-      _$DownloadResultErrorImpl;
-
-  factory _DownloadResultError.fromJson(Map<String, dynamic> json) =
-      _$DownloadResultErrorImpl.fromJson;
+      {@JsonKey(name: 'domain') required final String url,
+      @JsonKey(name: 'error_msg') required final String errorMsg}) = _$DownloadResultErrorImpl;
 
   @override
   @JsonKey(name: 'domain')
@@ -502,6 +431,5 @@ abstract class _DownloadResultError implements DownloadResult {
   /// with the given fields replaced by the non-null parameter values.
   @override
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$DownloadResultErrorImplCopyWith<_$DownloadResultErrorImpl> get copyWith =>
-      throw _privateConstructorUsedError;
+  _$$DownloadResultErrorImplCopyWith<_$DownloadResultErrorImpl> get copyWith => throw _privateConstructorUsedError;
 }
