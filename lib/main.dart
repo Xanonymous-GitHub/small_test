@@ -7,6 +7,12 @@ import 'package:http/http.dart' as http;
 import 'package:small_test/download_result.dart';
 import 'package:small_test/downloader.dart';
 
+final _sourcePaths = {
+  Uri.parse('https://image-test-a.xcc.tw/test-img'),
+  Uri.parse('https://image-test-b.xcc.tw/test-img'),
+  Uri.parse('https://image-test-c.xcc.tw/test-img'),
+};
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) => runApp(const MyApp()));
@@ -14,12 +20,7 @@ void main() {
 
 Future<List<DownloadResult>> _submitDownloadTask() {
   final client = http.Client();
-  final sourcePaths = {
-    Uri.parse('https://image-test-a.xcc.tw/test-img'),
-    Uri.parse('https://image-test-b.xcc.tw/test-img'),
-    Uri.parse('https://image-test-c.xcc.tw/test-img'),
-  };
-  final downloader = Downloader(sourcePaths: UnmodifiableSetView(sourcePaths), client: client);
+  final downloader = Downloader(sourcePaths: UnmodifiableSetView(_sourcePaths), client: client);
   return downloader.fetchAll();
 }
 
@@ -92,12 +93,15 @@ final class _DownloadResultListViewState extends State<DownloadResultListView> {
 
   Widget _buildDownloadResultItem(BuildContext context, int index) {
     final downloadResult = _downloadResults[index];
+    final isError = downloadResult.time == double.maxFinite;
+
     return Card(
+      surfaceTintColor: isError ? Theme.of(context).colorScheme.error: Theme.of(context).colorScheme.primaryContainer,
       child: ListTile(
         title: Text(downloadResult.url, textAlign: TextAlign.center),
         subtitle: Text(
           "${DateTime.now().toIso8601String()}, "
-          "${downloadResult.time == double.maxFinite ? 'ERROR' : '${downloadResult.time} ms'}",
+          "${isError ? 'ERROR' : '${downloadResult.time} ms'}",
           textAlign: TextAlign.right,
         ),
       ),
