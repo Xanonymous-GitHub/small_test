@@ -95,11 +95,11 @@ final class _DownloadResultListViewState extends State<DownloadResultListView> {
                   itemBuilder: _buildDownloadResultItem,
                   itemCount: _downloadResults.length,
                 )
-              : const Center(
+              : Center(
                   child: Icon(
                   Icons.add_chart_sharp,
                   size: 200,
-                  color: Colors.grey,
+                  color: secondaryColor.withOpacity(.5),
                 )),
         ),
         Row(

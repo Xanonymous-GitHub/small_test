@@ -13,14 +13,24 @@ final class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) => MaterialApp(
-        title: 'Small Test',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.green),
-          useMaterial3: true,
+  Widget build(BuildContext context) {
+    final brightness = MediaQuery.platformBrightnessOf(context);
+
+    return MaterialApp(
+      title: 'Small Test',
+      theme: ThemeData(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.blueAccent,
+          brightness: brightness,
         ),
-        home: const MyHomePage(title: 'Small Request timing Test'),
-      );
+        brightness: brightness,
+        useMaterial3: true,
+      ),
+      builder: (_, __) => MediaQuery.withNoTextScaling(
+        child: const MyHomePage(title: 'Small Request timing Test'),
+      ),
+    );
+  }
 }
 
 final class MyHomePage extends StatelessWidget {
@@ -31,10 +41,13 @@ final class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         appBar: AppBar(
-          backgroundColor: Theme.of(context).colorScheme.inversePrimary,
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
           title: Text(
             title,
-            style: const TextStyle(fontWeight: FontWeight.bold),
+            style: TextStyle(
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onPrimaryContainer,
+            ),
           ),
         ),
         body: const SafeArea(
