@@ -18,6 +18,12 @@ class DownloadResultCard extends StatelessWidget {
       return Card(
         surfaceTintColor: Theme.of(context).colorScheme.primaryContainer,
         child: ListTile(
+          leading: _downloadResult.progress == 0
+              ? const Icon(Icons.pending_outlined)
+              : CircularProgressIndicator(
+                  value: _downloadResult.progress,
+                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+                ),
           title: Text(_downloadResult.url.toString(), textAlign: TextAlign.center),
           subtitle: Text(
             "${(_downloadResult.progress * 100).toStringAsFixed(2)}%",
@@ -31,6 +37,7 @@ class DownloadResultCard extends StatelessWidget {
       return Card(
         surfaceTintColor: Theme.of(context).colorScheme.error,
         child: ListTile(
+          leading: Icon(Icons.report_gmailerrorred_outlined, color: Theme.of(context).colorScheme.onError),
           title: Text(_downloadResult.url.toString(), textAlign: TextAlign.center),
           subtitle: const Text(
             'ERROR',
@@ -43,12 +50,22 @@ class DownloadResultCard extends StatelessWidget {
     final done = _downloadResult as RealDownloadResultImpl;
     return Card(
       surfaceTintColor: Theme.of(context).colorScheme.primaryContainer,
-      child: ListTile(
-        title: Text(done.url.toString(), textAlign: TextAlign.center),
-        subtitle: Text(
-          "${_timeStamp ?? '???'}, ${done.time}ms",
-          textAlign: TextAlign.right,
-        ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          // const Icon(Icons.done),
+          Expanded(
+            child: ListTile(
+              leading: Icon(Icons.done_outline, color: Theme.of(context).colorScheme.onPrimaryContainer),
+              title: Text(done.url.toString(), textAlign: TextAlign.center),
+              subtitle: Text(
+                "${_timeStamp ?? '???'}, ${done.time}ms",
+                textAlign: TextAlign.right,
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
