@@ -54,7 +54,6 @@ class DownloadResultCard extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          // const Icon(Icons.done),
           Expanded(
             child: ListTile(
               leading: Icon(Icons.done_outline, color: Theme.of(context).colorScheme.onPrimaryContainer),
