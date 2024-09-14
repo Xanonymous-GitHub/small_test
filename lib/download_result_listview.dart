@@ -1,7 +1,8 @@
 import 'dart:collection';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import 'package:small_test/widgets/download_result_card.dart';
+
 import 'download_result.dart';
 import 'downloader.dart';
 
@@ -11,10 +12,10 @@ final _sourcePaths = {
   Uri.parse('https://image-test-c.xcc.tw/test-img'),
 };
 
-Future<List<DownloadResult>> _submitDownloadTask() {
-  final client = http.Client();
-  final downloader = Downloader(sourcePaths: UnmodifiableSetView(_sourcePaths), client: client);
-  return downloader.fetchAll();
+List<ValueNotifier<DownloadResult>> _submitDownloadTask() {
+  final downloader = Downloader(sourcePaths: UnmodifiableSetView(_sourcePaths));
+  downloader.fetchAll();
+  return downloader.results;
 }
 
 final class DownloadResultListView extends StatefulWidget {
@@ -25,66 +26,48 @@ final class DownloadResultListView extends StatefulWidget {
 }
 
 final class _DownloadResultListViewState extends State<DownloadResultListView> {
-  final List<DownloadResult> _downloadResults = [];
-  final Queue<Future<List<DownloadResult>>> _tasks = Queue();
+  final List<ValueNotifier<DownloadResult>> _downloadResults = [];
   final Map<int, String> _timeStamps = {};
+  final ScrollController _scrollController = ScrollController();
 
   void _onDownloadButtonClicked() {
-    setState(() {
-      _tasks.add(_submitDownloadTask());
-    });
+    _downloadResults.addAll(_submitDownloadTask());
+    setState(() {});
+    _scrollDown();
   }
 
-  void _consumeDownloadTask() {
-    if (_tasks.isNotEmpty) {
-      _tasks.first.then((result) {
-        setState(() {
-          for (final downloadResult in result) {
-            _timeStamps[downloadResult.hashCode] = DateTime.now().toIso8601String();
-          }
-
-          _downloadResults.insertAll(0, result);
-          _tasks.removeFirst();
-        });
+  void _scrollDown() {
+    if (_scrollController.hasClients) {
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        _scrollController.animateTo(
+          _scrollController.position.maxScrollExtent,
+          duration: const Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
       });
     }
   }
 
   Widget _buildDownloadResultItem(BuildContext context, int index) {
-    final downloadResult = _downloadResults[index];
-    final isError = downloadResult.time == double.maxFinite;
-
-    return Card(
-      surfaceTintColor: isError ? Theme.of(context).colorScheme.error : Theme.of(context).colorScheme.primaryContainer,
-      child: ListTile(
-        title: Text(downloadResult.url, textAlign: TextAlign.center),
-        subtitle: Text(
-          "${_timeStamps[downloadResult.hashCode]}, "
-          "${isError ? 'ERROR' : '${downloadResult.time} ms'}",
-          textAlign: TextAlign.right,
-        ),
+    final result = _downloadResults[index];
+    final timeStamp = _timeStamps.putIfAbsent(result.hashCode, () => DateTime.now().toString());
+    return ValueListenableBuilder(
+      key: ValueKey(result),
+      valueListenable: result,
+      builder: (_, downloadResult, __) => DownloadResultCard(
+        downloadResult: downloadResult,
+        timeStamp: timeStamp,
       ),
     );
   }
 
   @override
-  void deactivate() {
-    for (final task in _tasks) {
-      task.ignore();
-    }
-    _tasks.clear();
-    super.deactivate();
-  }
-
-  @override
   Widget build(BuildContext context) {
-    _consumeDownloadTask();
-
     final secondaryColor = Theme.of(context).colorScheme.secondary;
     final onSecondaryColor = Theme.of(context).colorScheme.onSecondary;
 
     return Column(
-      mainAxisAlignment: MainAxisAlignment.end,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisSize: MainAxisSize.max,
       children: [
@@ -94,6 +77,8 @@ final class _DownloadResultListViewState extends State<DownloadResultListView> {
                   padding: const EdgeInsets.all(8),
                   itemBuilder: _buildDownloadResultItem,
                   itemCount: _downloadResults.length,
+                  shrinkWrap: true,
+                  controller: _scrollController,
                 )
               : Center(
                   child: Icon(
@@ -113,15 +98,8 @@ final class _DownloadResultListViewState extends State<DownloadResultListView> {
                 textStyle: const TextStyle(fontWeight: FontWeight.bold),
               ),
               onPressed: _onDownloadButtonClicked,
-              label: _tasks.isEmpty ? const Text('Download') : Text('Downloading...[${_tasks.length}]'),
-              icon: _tasks.isEmpty
-                  ? const Icon(Icons.download)
-                  : SizedBox.square(
-                      dimension: 20,
-                      child: CircularProgressIndicator(
-                        color: onSecondaryColor,
-                      ),
-                    ),
+              label: const Text('Download'),
+              icon: const Icon(Icons.download),
             ),
             const SizedBox(width: 8),
             ElevatedButton.icon(
@@ -130,7 +108,12 @@ final class _DownloadResultListViewState extends State<DownloadResultListView> {
                 foregroundColor: onSecondaryColor,
                 textStyle: const TextStyle(fontWeight: FontWeight.bold),
               ),
-              onPressed: _downloadResults.isNotEmpty ? () => setState(() => _downloadResults.clear()) : null,
+              onPressed: _downloadResults.isNotEmpty
+                  ? () => setState(() {
+                        _downloadResults.clear();
+                        _timeStamps.clear();
+                      })
+                  : null,
               label: const Text('Clear'),
               icon: const Icon(Icons.clear),
             ),
