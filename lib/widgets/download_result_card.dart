@@ -20,11 +20,14 @@ class DownloadResultCard extends StatelessWidget {
         child: ListTile(
           leading: _downloadResult.progress == 0
               ? const Icon(Icons.pending_outlined)
-              : CircularProgressIndicator(
-                  value: _downloadResult.progress,
-                  color: Theme.of(context).colorScheme.onPrimaryContainer,
+              : SizedBox.square(
+                  dimension: 24,
+                  child: CircularProgressIndicator(
+                    value: _downloadResult.progress,
+                    color: Theme.of(context).colorScheme.onPrimaryContainer,
+                  ),
                 ),
-          title: Text(_downloadResult.url.toString(), textAlign: TextAlign.center),
+          title: Text(_downloadResult.url.toString(), textAlign: TextAlign.left),
           subtitle: Text(
             "${(_downloadResult.progress * 100).toStringAsFixed(2)}%",
             textAlign: TextAlign.right,
@@ -38,7 +41,7 @@ class DownloadResultCard extends StatelessWidget {
         surfaceTintColor: Theme.of(context).colorScheme.error,
         child: ListTile(
           leading: Icon(Icons.report_gmailerrorred_outlined, color: Theme.of(context).colorScheme.onError),
-          title: Text(_downloadResult.url.toString(), textAlign: TextAlign.center),
+          title: Text(_downloadResult.url.toString(), textAlign: TextAlign.left),
           subtitle: const Text(
             'ERROR',
             textAlign: TextAlign.right,
@@ -57,10 +60,13 @@ class DownloadResultCard extends StatelessWidget {
           Expanded(
             child: ListTile(
               leading: Icon(Icons.done_outline, color: Theme.of(context).colorScheme.onPrimaryContainer),
-              title: Text(done.url.toString(), textAlign: TextAlign.center),
-              subtitle: Text(
-                "${_timeStamp ?? '???'}, ${done.time}ms",
-                textAlign: TextAlign.right,
+              title: Text(done.url.toString(), textAlign: TextAlign.left),
+              subtitle: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("${_timeStamp ?? '???'}, ", textAlign: TextAlign.left),
+                  Text("${done.time}ms", textAlign: TextAlign.right),
+                ],
               ),
             ),
           ),
