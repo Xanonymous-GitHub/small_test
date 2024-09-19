@@ -5,7 +5,7 @@ Maybe not too smart, but I'm trying to make it as simple as possible.
 
 <table>
   <tr>
-    <td><img src="https://github.com/user-attachments/assets/1b3d4df1-fca9-45bc-baf9-b3ba2e17d1d1"></td>
-    <td><img src="https://github.com/user-attachments/assets/5d06d349-9691-4631-aa28-81b390e53900"></td>
+    <td><img src="https://github.com/user-attachments/assets/5716611d-915d-43c5-9c6e-42a15b4c2f01"></td>
+    <td><img src="https://github.com/user-attachments/assets/b1612276-c05a-4c6d-8250-09a926189709"></td>
   </tr>
 </table>
