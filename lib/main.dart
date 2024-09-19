@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'download_result_listview.dart';
+import 'widgets/download_result_listview.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();

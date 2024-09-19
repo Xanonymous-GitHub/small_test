@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:small_test/download_result.dart';
+import 'package:small_test/models/download_result.dart';
 
 class DownloadResultCard extends StatelessWidget {
   final DownloadResult _downloadResult;

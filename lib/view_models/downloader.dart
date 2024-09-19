@@ -3,7 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
-import 'package:small_test/download_result.dart';
+import 'package:small_test/models/download_result.dart';
 
 /// The [Downloader] class is responsible for benchmarking the time
 /// it takes to download a set of uris.

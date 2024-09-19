@@ -3,8 +3,8 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:small_test/widgets/download_result_card.dart';
 
-import 'download_result.dart';
-import 'downloader.dart';
+import '../models/download_result.dart';
+import '../view_models/downloader.dart';
 
 final _sourcePaths = {
   Uri.parse('https://image-test-a.xcc.tw/test-img'),
