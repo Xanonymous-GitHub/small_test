@@ -1,22 +1,15 @@
 package main
 
 import (
-	"fmt"
+	"github.com/Xanonymous-GitHub/small_test/handlers"
+	"github.com/valyala/fasthttp"
 	"log"
-	"net/http"
 	"os"
-	"strconv"
-)
-
-const (
-	rootPath      = "/"
-	imgServerPath = "/test-img"
 )
 
 var (
-	imgByte       []byte
-	imgByteLenStr string
-	imgName       string
+	imgByte []byte
+	imgName string
 )
 
 func prepareImageByte() []byte {
@@ -30,63 +23,36 @@ func prepareImageByte() []byte {
 		panic(err)
 	}
 
-	imgByteLenStr = strconv.Itoa(len(image))
 	imgName = extractFileNameFromPath(imgPath)
 
 	return image
 }
 
 func main() {
-	srv := &http.Server{
-		Addr: func() string {
+	imgByte = prepareImageByte()
+
+	handler := handlers.Handler{
+		ImgName:  imgName,
+		ImgBytes: imgByte,
+	}
+
+	err := fasthttp.ListenAndServe(
+		func() string {
 			port := os.Getenv("PORT")
 			if port == "" {
 				port = "8080"
 			}
 			return ":" + port
 		}(),
-	}
+		handler.RootHandler,
+	)
 
-	http.HandleFunc(rootPath, handleRootOk)
-	http.HandleFunc(imgServerPath, handleImgRequest)
-
-	imgByte = prepareImageByte()
-
-	if err := srv.ListenAndServe(); err != nil {
-		log.Fatalf("listen: %s\n", err)
-	}
-
-	log.Println("Stopped serving")
-}
-
-func handleImgRequest(w http.ResponseWriter, r *http.Request) {
-	log.Println("Image Request received, ip:", r.RemoteAddr)
-
-	w.Header().Set("Content-Type", "application/octet-stream")
-	w.Header().Set("Content-Length", imgByteLenStr)
-	w.Header().Set("Content-Disposition", "attachment; filename="+imgName)
-
-	_, err := w.Write(imgByte)
 	if err != nil {
-		panic(err)
-	}
-
-	log.Println("Image sent.")
-	return
-}
-
-func handleRootOk(w http.ResponseWriter, r *http.Request) {
-	if r.URL.Path != rootPath {
-		http.NotFound(w, r)
+		log.Fatalf("listen: %s\n", err)
 		return
 	}
 
-	_, err := w.Write([]byte(fmt.Sprintf("The server is running. Send a GET request to %v to get the image.", imgServerPath)))
-	if err != nil {
-		panic(err)
-	}
-
-	return
+	log.Println("Stopped serving")
 }
 
 func extractFileNameFromPath(path string) string {
