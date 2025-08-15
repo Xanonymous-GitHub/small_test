@@ -27,7 +27,7 @@ jobs:
 
       # checkout codebase.
       - name: Checkout codebase
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # Get packages.
       - name: Get dependencies
@@ -64,7 +64,7 @@ jobs:
 
       # checkout codebase.
       - name: Checkout codebase
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       # Get packages.
       - name: Get dependencies
