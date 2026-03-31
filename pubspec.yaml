@@ -21,7 +21,7 @@ dev_dependencies:
 
   flutter_lints: ^4.0.0
   build_runner: ^2.4.12
-  freezed: ^2.5.7
+  freezed: ^3.0.0
   json_serializable: ^6.8.0
   icons_launcher: ^3.0.0
 
